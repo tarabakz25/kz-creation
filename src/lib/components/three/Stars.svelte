@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { useTask } from '@threlte/core';
+  import { T, useTask } from '@threlte/core';
   import * as THREE from 'three';
 
   // 500個のメッシュ参照

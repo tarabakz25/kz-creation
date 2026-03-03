@@ -56,11 +56,11 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-{#key $page.url.pathname}
+{#key page.url.pathname}
   <div
     in:fly={{ y: 20, duration: 400, opacity: 0 }}
     out:fade={{ duration: 200 }}
   >
-    <slot />
+    {@render children()}
   </div>
 {/key}

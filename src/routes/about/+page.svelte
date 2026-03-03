@@ -1,28 +1,18 @@
-<script>
-  export const socials = [
-    {
-      name: "X",
-      url: "https://x.com/kz25_kmc/",
-    },
-    {
-      name: "GitHub",
-      url: "https://github.com/tarabakz25/",
-    },
-    {
-      name: "Instagram",
-      url: "https://instagram.com/kizu25_01/",
-    },
-    {
-      name: "Prarie Card",
-      url: "https://my.prairie.cards/u/kz25_kmc",
-    },
+<script lang="ts">
+  import Menu from '$lib/components/layouts/Menu.svelte';
+
+  const socials = [
+    { name: "X", url: "https://x.com/kz25_kmc/" },
+    { name: "GitHub", url: "https://github.com/tarabakz25/" },
+    { name: "Instagram", url: "https://instagram.com/kizu25_01/" },
+    { name: "Prairie Card", url: "https://my.prairie.cards/u/kz25_kmc" },
   ];
 </script>
 
 <main class="h-screen flex justify-between px-[5vw] py-[10vh]">
   <div class="flex flex-col items-start w-full min-h-screen text-white gap-8">
     <h1 class="text-3xl font-futura_pt tracking-wider">Who am I ?</h1>
-    <MenuItem />
+    <Menu />
   </div>
   <div class="w-full items-right text-white flex flex-col justify-between">
     <div class="text-right space-y-4">
@@ -35,13 +25,13 @@
     </div>
 
     <div class="text-xl text-right font-light space-y-4 font-avenir">
-      <div>Next.js / Astro / Vite / React / Tailwindcss / Node.js </div>   
+      <div>Next.js / Astro / Vite / React / Tailwindcss / Node.js</div>
       <div>Vercel / Supabase / Drizzle / Prisma / DynamoDB / API Gateway / AWS Lambda</div>
       <div>Cursor / Claude code / Manus / Google AI Studio</div>
     </div>
 
     <div class="w-full flex flex-col items-end text-right text-white">
-      {#each socials as social, index}
+      {#each socials as social}
         <a
           href={social.url}
           class="flex items-center gap-2 text-white hover:text-gray-300 font-futura_pt tracking-wider"

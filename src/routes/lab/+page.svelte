@@ -1,25 +1,22 @@
 <script lang="ts">
   import Menu from '$lib/components/layouts/Menu.svelte';
+  import worksData from '$lib/components/contents/works.json';
 
-  // Import images
-  const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
-    "/src/assets/content/works/*.{webp,png,jpg,jpeg}",
+  const imagesGlob = import.meta.glob<{ default: string }>(
+    '/src/lib/assets/content/works/*.{webp,png,jpg,jpeg}',
     { eager: true },
   );
 
-  // Helper to get image from path
-  const getImage = (path: string) => {
-    const cleanPath = path.replace(/^~/, "/src");
-    const imageModule = imagesGlob[cleanPath];
-    return imageModule ? imageModule.default : null;
+  const getImage = (path: string): string | null => {
+    const normalized = path.replace(/^~\//, '/src/lib/');
+    const mod = imagesGlob[normalized];
+    return mod ? mod.default : null;
   };
 
-  const works = worksData
-    .map((work) => ({
-      ...work,
-      imageObj: getImage(work.image),
-    }))
-    .filter((w) => w.imageObj);
+  const works = worksData.map((work) => ({
+    ...work,
+    imageUrl: getImage(work.image),
+  }));
 
   type Work = (typeof works)[0];
 
@@ -36,18 +33,18 @@
   </div>
 
   <!-- Right Section: Scrollable List -->
-  <div class="w-2/3 h-full overflow-y-auto scrollbar-hide flex flex-col items-end gap-8 pb-20 pr-2">
+  <div class="w-2/3 h-full overflow-y-auto flex flex-col items-end gap-8 pb-20 pr-2">
     {#each works as work, index (index)}
       <button
         onclick={() => (selectedWork = work)}
         class="group flex flex-col items-end text-right transition-all duration-300 hover:opacity-100 opacity-70"
       >
         {#if selectedWork?.name === work.name}
-          <h2 class="text-2xl text-transparent tracking-wider font-futura_pt leading-none mb-2">
+          <h2 class="text-2xl text-white/30 tracking-wider font-futura_pt leading-none mb-2">
             {work.name}
           </h2>
         {:else}
-          <h2 class="text-2xl text-white tracking-wider font-futura_pt leading-none mb-2 group-hover:text-primary-400">
+          <h2 class="text-2xl text-white tracking-wider font-futura_pt leading-none mb-2">
             {work.name}
           </h2>
         {/if}
@@ -82,6 +79,7 @@
         <!-- Close Button -->
         <button
           onclick={() => (selectedWork = null)}
+          aria-label="Close"
           class="absolute top-4 right-4 text-white/50 hover:text-white transition-colors z-10"
         >
           <svg
@@ -101,16 +99,18 @@
         </button>
 
         <!-- Image -->
-        <div class="w-full md:w-1/2 aspect-video rounded-lg overflow-hidden border border-white/5 bg-white/5 flex-shrink-0">
-          <img
-            src={selectedWork.imageObj!.src}
-            alt={selectedWork.name}
-            class="w-full h-full object-cover"
-          />
-        </div>
+        {#if selectedWork.imageUrl}
+          <div class="w-full md:w-1/2 aspect-video rounded-lg overflow-hidden border border-white/5 bg-white/5 flex-shrink-0">
+            <img
+              src={selectedWork.imageUrl}
+              alt={selectedWork.name}
+              class="w-full h-full object-cover"
+            />
+          </div>
+        {/if}
 
         <!-- Content -->
-        <div class="flex flex-col justify-between w-full md:w-1/2 text-white">
+        <div class="flex flex-col justify-between w-full {selectedWork.imageUrl ? 'md:w-1/2' : ''} text-white">
           <div>
             <h3 class="text-3xl font-bold font-avenir mb-4">
               {selectedWork.name}
@@ -129,7 +129,7 @@
               href={selectedWork.url}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center justify-center gap-2 font-avenir tracking-wider text-white px-6 py-3 hover:text-primary-400 transition-colors mt-4 md:mt-0"
+              class="inline-flex items-center justify-center gap-2 font-avenir tracking-wider text-white px-6 py-3 hover:text-white/60 transition-colors mt-4 md:mt-0"
             >
               <span>Visit Website</span>
               <svg
