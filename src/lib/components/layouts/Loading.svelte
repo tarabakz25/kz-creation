@@ -1,18 +1,12 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import gsap from 'gsap';
 
-  // sessionStorage で初回訪問チェック
-  let isFirstVisit = false;
+  let tl: gsap.core.Timeline | null = null;
 
   onMount(() => {
-    isFirstVisit = sessionStorage.getItem('hasVisited') !== 'true';
-
-    if (!isFirstVisit) {
-      // 2回目以降: 即非表示
-      gsap.set('#smooth-wrapper', { opacity: 1, y: 0 });
-      return;
-    }
+    // ① data-first-visit 属性で初回訪問か判定（Layout側でセットしておく）
+    const isFirstVisit = document.documentElement.hasAttribute('data-first-visit');
 
     const loadingOverlay = document.getElementById('loading-overlay');
     const loadingBg      = document.getElementById('loading-bg');
@@ -20,12 +14,25 @@
     const loadingLine    = document.getElementById('loading-line');
     const smoothWrapper  = document.getElementById('smooth-wrapper');
 
-    if (!loadingOverlay || !loadingBg || !loadingText || !loadingLine) return;
+    // ② 2回目以降: 即非表示にしてコンテンツを表示
+    if (!isFirstVisit) {
+      if (loadingOverlay) loadingOverlay.style.display = 'none';
+      if (smoothWrapper)  gsap.set(smoothWrapper, { opacity: 1, y: 0 });
+      return;
+    }
 
-    const tl = gsap.timeline({
+    // ③ ローディング要素が見つからない場合のフォールバック
+    if (!loadingOverlay || !loadingBg || !loadingText || !loadingLine) {
+      if (smoothWrapper) gsap.set(smoothWrapper, { opacity: 1, y: 0 });
+      return;
+    }
+
+    // ④ GSAPタイムラインでアニメーション実行
+    tl = gsap.timeline({
       onComplete: () => {
         sessionStorage.setItem('hasVisited', 'true');
-        if (loadingOverlay) loadingOverlay.style.display = 'none';
+        document.documentElement.removeAttribute('data-first-visit');
+        loadingOverlay.style.display = 'none';
 
         if (smoothWrapper) {
           gsap.fromTo(
@@ -44,8 +51,14 @@
       .to(loadingLine, { opacity: 0, duration: 0.3 }, '-=0.3')
       .to(loadingBg,   { yPercent: -100, duration: 0.8, ease: 'power3.inOut' });
   });
+
+  // ⑤ クリーンアップ（React の return () => tl.kill() に相当）
+  onDestroy(() => {
+    tl?.kill();
+  });
 </script>
 
+<!-- ローディングオーバーレイのHTML -->
 <div
   id="loading-overlay"
   class="fixed inset-0 z-[100] w-full h-screen pointer-events-none"

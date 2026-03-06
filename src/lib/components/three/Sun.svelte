@@ -1,8 +1,15 @@
 <script lang="ts">
-  import { T } from '@threlte/core';
+  import { T, useTask } from "@threlte/core";
+  import * as THREE from "three";
+
+  let mesh: THREE.Mesh;
+
+  useTask(() => {
+    if (mesh) mesh.rotation.x += 0.001;
+  });
 </script>
 
-<T.Mesh>
-  <T.SphereGeometry args={[2, 32, 32]} />
-  <T.MeshPhongMaterial emissive="#ffffff" emissiveIntensity={0.3} color="#ffffff" />
+<T.Mesh bind:ref={mesh}>
+  <T.IcosahedronGeometry args={[5, 1]} />
+  <T.MeshBasicMaterial color={0xf66120} wireframe />
 </T.Mesh>
