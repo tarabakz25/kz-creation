@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [Unreleased] - 2026-03-06
+
+### Refactored
+- `notes/+page.ts`: `fetch('/api/posts')` 経由を廃止し、`import.meta.glob` で直接 Markdown を読み込むように変更
+- `notes/+page.server.ts`: 誤配置の `GET` エクスポートを削除（`+page.server.ts` には置けない）
+- `src/routes/api/posts/+server.ts`: 不要になった API エンドポイントを削除
+
 ## [Unreleased] - 2026-03-05
 
 ### Added

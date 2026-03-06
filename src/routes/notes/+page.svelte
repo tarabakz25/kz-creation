@@ -1,6 +1,6 @@
 <script lang="ts">
-  import MenuItem from '$lib/components/MenuItem.svelte';
-  import TitleCard from '$lib/components/TitleCard.svelte';
+  import Menu from '$lib/components/layouts/Menu.svelte';
+  import TitleCard from '$lib/components/layouts/TitleCard.svelte';
 
   export let data;
 </script>
@@ -11,7 +11,7 @@
     <h1 class="text-3xl tracking-wider" style="font-family: var(--font-futura, futura-pt, sans-serif)">
       Notes.
     </h1>
-    <MenuItem />
+    <Menu />
   </div>
 
   <!-- Right: posts list -->
