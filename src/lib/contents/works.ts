@@ -1,4 +1,4 @@
-[
+export const worksData = [
   {
     "name": "Infomatic AI -JAPAN AI HACKATHON 2025-",
     "url": "https://engineering.japan-ai.co.jp/advent-10",
@@ -29,4 +29,4 @@
     "image": "~/assets/content/works/business-card.webp",
     "tags": ["design", "figma"]
   }
-]
+];

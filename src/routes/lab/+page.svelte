@@ -1,6 +1,6 @@
 <script lang="ts">
   import Menu from '$lib/components/layouts/Menu.svelte';
-  import worksData from '$lib/components/contents/works.json';
+  import { worksData } from '$lib/contents/works';
 
   const imagesGlob = import.meta.glob<{ default: string }>(
     '/src/lib/assets/content/works/*.{webp,png,jpg,jpeg}',
