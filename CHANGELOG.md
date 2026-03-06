@@ -1,8 +1,18 @@
 # CHANGELOG
 
-## [Unreleased] - 2026-03-03
+## [Unreleased] - 2026-03-05
 
 ### Added
+- `+layout.svelte`: `app.css` をグローバルインポートし、Tailwind を全ページに適用
+- `+layout.svelte`: Threlte の three 背景（`ThreeBackground`）を全ページ共通で表示
+- `+layout.svelte`: `/blog` 配下では three 背景を非表示にする条件分岐（ブログは SPA 外想定）
+- コンテンツラッパーに `relative z-10` を付与し、three 背景の前面に表示
+
+### Changed
+- `three/Index.svelte`: `-z-5` → `-z-10`（Tailwind 標準クラスに統一）
+- `+layout.svelte`: 未使用の `navigating` インポートを削除
+
+### Added (2026-03-03 以前)
 - `@tailwindcss/vite` プラグインをインストール・vite.config.ts に追加（Tailwind v4 動作に必須）
 - `gsap` をインストール（FadeBlob アニメーション用）
 - `Menu.svelte` を新規実装（ナビゲーションリンク、現在パスのハイライト付き）

@@ -124,3 +124,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+html.prevent-scroll,
+body {
+  overflow: hidden;
+}

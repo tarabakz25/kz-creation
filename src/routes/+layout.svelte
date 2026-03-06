@@ -1,9 +1,13 @@
 <script lang="ts">
+	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { fade, fly } from 'svelte/transition';
-	import { navigating } from '$app/state';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
+	import ThreeBackground from '$lib/components/three/Index.svelte';
+	
+	import Footer from '$lib/components/layouts/Footer.svelte';
+	import Loading from '$lib/components/layouts/Loading.svelte';
 
 	let { children } = $props();
 	
@@ -56,11 +60,34 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<Loading />
+
+{#if !page.url.pathname.startsWith('/blog')}
+  <ThreeBackground />
+{/if}
+
 {#key page.url.pathname}
   <div
+    class="bg fixed inset-0 w-full h-screen bg-[#131313] pointer-events-none -z-10"
+  >
+  </div>
+  <div
+    class="--font-sans relative z-10"
     in:fly={{ y: 20, duration: 400, opacity: 0 }}
     out:fade={{ duration: 200 }}
   >
     {@render children()}
   </div>
 {/key}
+
+<div class="fixed left-0 bottom-0 w-full">
+  <Footer />
+</div>
+
+<style>
+  .bg {
+    background-image: linear-gradient(to right, rgba(128, 128, 128, 0.1) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(128, 128, 128, 0.1) 1px, transparent 1px);
+    background-size: 6rem 6rem;
+  }
+</style>
