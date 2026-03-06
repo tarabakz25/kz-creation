@@ -9,7 +9,7 @@
 <CameraRig />
 <Stars />
 
-<T.Group position={[12, 0, 0]}>
+<T.Group position={[20, 0, 0]}>
   <Sun />
   <OrbitRing />
 </T.Group>
