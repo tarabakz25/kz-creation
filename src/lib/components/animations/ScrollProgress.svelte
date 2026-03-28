@@ -30,7 +30,7 @@
 </script>
 
 {#if browser}
-<div class="fixed bottom-6 right-6 z-40 flex flex-col items-center gap-2" aria-hidden="true">
+<div class="fixed bottom-8 right-6 z-40 flex flex-col items-center gap-2" aria-hidden="true">
   <span class="text-[0.6875rem] tabular-nums text-[var(--text-2)] tracking-[0.04em] leading-none select-none w-8 text-center">
     {progress}%
   </span>
