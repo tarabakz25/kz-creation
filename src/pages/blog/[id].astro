@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "~/layouts/Layout.astro";
+import Content from '~/components/Content';
+import PageMigration from "~/components/PageMigration";
+import Header from "~/components/Header";
+import { parse } from "node-html-parser";
+import { convertMarkdownToHtml } from "~/lib/markdown";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+// Convert Markdown to HTML using Zenn's processor
+const contentHtml = convertMarkdownToHtml(post.body);
+
+// 見出しを抽出
+const root = parse(contentHtml);
+const headingElements = root.querySelectorAll("h1, h2, h3, h4, h5, h6");
+const headings = headingElements.map((el, index) => {
+  const depth= parseInt(el.tagName.substring(1));
+  const text = el.text;
+  const slug = `heading-${index + 1}`;
+  el.setAttribute("id", slug);
+  return { text, slug, depth };
+});
+
+const postData = {
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate.toISOString(),
+  content: root.toString(),
+  headings,
+};
+---
+
+<Layout>
+  <Header client:load />
+  <main class="h-screen">
+    <div class="h-32"></div>
+    <Content content={postData.content} client:load />
+  </main>
+</Layout>
