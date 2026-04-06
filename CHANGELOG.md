@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [Unreleased] - 2026-04-06
+
+### Refactored (SvelteKit → Vite + React)
+- フレームワーク全体を SvelteKit から Vite + React (React Router v7) に移行
+- 全 `.svelte` コンポーネントを `.tsx` に書き直し
+- `@threlte/core` / `@threlte/extras` → `@react-three/fiber` + `@react-three/drei` に置き換え
+- `svelte/transition` ページ遷移 → `framer-motion` (`AnimatePresence`) に置き換え
+- `$app/state` (page store) → `useLocation()` に置き換え
+- `mdsvex` Markdown レンダリング → `react-markdown` + `gray-matter` に置き換え
+- SvelteKit file-based routing → React Router の `<Routes>` で手動定義
+- `src/routes/` ディレクトリを廃止、`src/pages/` に移行
+- `src/main.tsx` + `src/App.tsx` をエントリーポイントとして新規作成
+- `index.html` を React 用に更新（`%sveltekit.body%` → `<div id="root">`）
+- `tsconfig.json` を SvelteKit 依存から独立した React 用設定に更新
+- 不要ファイル削除: `svelte.config.js`, `next-env.d.ts`, `src/app.d.ts`, `src/app.html`
+
 ## [Unreleased] - 2026-03-06
 
 ### Refactored
