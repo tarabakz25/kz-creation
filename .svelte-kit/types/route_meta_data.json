@@ -1,0 +1,12 @@
+{
+	"/": [],
+	"/about": [],
+	"/contact": [],
+	"/lab": [],
+	"/notes": [
+		"src/routes/notes/+page.ts"
+	],
+	"/notes/[slug]": [
+		"src/routes/notes/[slug]/+page.ts"
+	]
+}
