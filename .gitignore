@@ -25,3 +25,5 @@ vite.config.ts.timestamp-*
 .playwright-mcp
 
 .next/*
+.aidesigner/*
+!.aidesigner/.gitkeep
